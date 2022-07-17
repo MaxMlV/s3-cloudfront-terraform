@@ -1,3 +1,22 @@
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+    }
+    random = {
+      source = "hashicorp/random"
+    }
+  }
+
+  cloud {
+    organization = "portfolio-project"
+
+    workspaces {
+      name = "cicd-github"
+    }
+  }
+}
+
 provider "aws" {
   region = var.region
 }
