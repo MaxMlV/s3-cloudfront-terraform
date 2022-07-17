@@ -1,8 +1,9 @@
 provider "aws" {
-  region = "eu-central-1"
+  region = var.region
 }
 
-module "cloudfront" {
-  source      = "./modules/"
-  domain_name = var.domain_name
+provider "aws" {
+  alias  = "us-east-1"
+  region = "us-east-1"
 }
+

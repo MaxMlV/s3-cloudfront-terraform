@@ -1,4 +1,4 @@
-resource "aws_cloudfront_distribution" "cf" {
+resource "aws_cloudfront_distribution" "s3_distribution" {
   depends_on = [
     aws_s3_bucket.website_bucket
   ]
@@ -23,7 +23,7 @@ resource "aws_cloudfront_distribution" "cf" {
   }
 
   default_cache_behavior {
-    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PUT", "POST"]
+    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = aws_s3_bucket.website_bucket.bucket_regional_domain_name
 
@@ -43,7 +43,7 @@ resource "aws_cloudfront_distribution" "cf" {
 
   viewer_certificate {
     cloudfront_default_certificate = true
-    acm_certificate_arn            = aws_acm_certificate.my_site.arn
+    acm_certificate_arn            = aws_acm_certificate.cert.arn
     ssl_support_method             = "sni-only"
     minimum_protocol_version       = "TLSv1"
   }
@@ -52,4 +52,3 @@ resource "aws_cloudfront_distribution" "cf" {
 resource "aws_cloudfront_origin_access_identity" "origgin_access_identity" {
   comment = "access-identity-${var.domain_name}.s3.amazonaws.com"
 }
-
