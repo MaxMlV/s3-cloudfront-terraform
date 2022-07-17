@@ -2,9 +2,9 @@ name: CI/CD pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main 
   pull_request:
-    branches: [ dev ]
 
 jobs:
   terraform:
@@ -22,7 +22,8 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
-          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+          terraform_version: 1.0.8
+          terraform_wrapper: false
 
       - name: Terraform Format
         id: fmt
@@ -41,6 +42,9 @@ jobs:
         if: github.event_name == 'pull_request'
         run: terraform plan -no-color -input=false
         continue-on-error: true
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
@@ -73,4 +77,7 @@ jobs:
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve -input=false
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     
