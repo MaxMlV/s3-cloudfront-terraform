@@ -1,13 +1,3 @@
-terraform {
-  cloud {
-    organization = "portfolio-project"
-
-    workspaces {
-      name = "cicd-github"
-    }
-  }
-}
-
 provider "aws" {
   region = var.region
 }
