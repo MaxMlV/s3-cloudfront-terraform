@@ -15,7 +15,7 @@ provider "aws" {
 
 resource "null_resource" "build" {
   provisioner "local-exec" {
-    command = "cd my-app && npm install && ./node_modules/.bin/gatsby build"
+    command = "cd my-app && npm install --global yarn && yarn install && ./node_modules/.bin/gatsby build"
   }
 
   depends_on = [aws_s3_bucket.website_bucket]
