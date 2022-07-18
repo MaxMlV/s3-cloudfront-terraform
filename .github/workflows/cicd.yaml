@@ -10,7 +10,6 @@ jobs:
   build:
     name: "Build project"
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -21,12 +20,14 @@ jobs:
           node-version: 16
 
       - name: Build project
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
           cd my-app
           yarn install
           yarn build
 
       - name: Archive website directory
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         uses: actions/upload-artifact@v3
         with:
           name: build
