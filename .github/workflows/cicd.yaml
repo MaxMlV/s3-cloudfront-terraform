@@ -22,21 +22,13 @@ jobs:
       - name: Build project
         run: |
           cd my-app
-          npm install -g yarn
-          npm install gatsby-plugin-image
-          yarn install
-          ./node_modules/.bin/gatsby build
-        env:
-          CONTENTFUL_ACCESS_TOKEN: ${{ secrets.CONTENTFUL_ACCESS_TOKEN }}
-          CONTENTFUL_MANAGEMENT_TOKEN: ${{ secrets.CONTENTFUL_MANAGEMENT_TOKEN }}
-          CONTENTFUL_SPACE_ID: ${{ secrets.CONTENTFUL_SPACE_ID }}
-          MAILCHIMP_ENDPOINT: ${{ secrets.MAILCHIMP_ENDPOINT }}
+          yarn
 
       - name: Archive website directory
         uses: actions/upload-artifact@v3
         with:
-          name: public
-          path: my-app/public/
+          name: build
+          path: my-app/build/
           
 
   terraform:
@@ -123,7 +115,7 @@ jobs:
       - name: S3 Sync
         uses: ItsKarma/aws-cli@v1.70.0
         with:
-          args: s3 sync --delete public/ s3://${{ secrets.S3_WEBSITE_BUCKET }}/
+          args: s3 sync --delete build/ s3://${{ secrets.S3_WEBSITE_BUCKET }}/
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
