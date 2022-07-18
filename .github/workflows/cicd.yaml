@@ -10,6 +10,7 @@ jobs:
   build:
     name: "Build project"
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -22,7 +23,8 @@ jobs:
       - name: Build project
         run: |
           cd my-app
-          yarn
+          yarn install
+          yarn build
 
       - name: Archive website directory
         uses: actions/upload-artifact@v3
@@ -105,6 +107,7 @@ jobs:
     name: "Website deployment to S3"
     needs: terraform
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
