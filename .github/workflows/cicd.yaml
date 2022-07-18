@@ -7,8 +7,8 @@ on:
   pull_request:
 
 jobs:
-  terraform:
-    name: "Build infastructure + build project + deploy project"
+  build:
+    name: "Build project"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -18,6 +18,28 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
+
+      - name: Build project
+        run: |
+          cd my-app
+          yarn install
+          yarn build
+
+      - name: Archive website directory
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: my-app/build/
+          
+
+  terraform:
+    name: "Build infastructure with terraform"
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
@@ -32,6 +54,9 @@ jobs:
       - name: Terraform Init
         id: init
         run: terraform init
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Terraform Validate
         id: validate
@@ -80,8 +105,24 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          CONTENTFUL_ACCESS_TOKEN: ${{ secrets.CONTENTFUL_ACCESS_TOKEN }}
-          CONTENTFUL_MANAGEMENT_TOKEN: ${{ secrets.CONTENTFUL_MANAGEMENT_TOKEN }}
-          CONTENTFUL_SPACE_ID: ${{ secrets.CONTENTFUL_SPACE_ID }}
-          MAILCHIMP_ENDPOINT: ${{ secrets.MAILCHIMP_ENDPOINT }}
-    
+  
+  deploy:
+    name: "Website deployment to S3"
+    needs: terraform
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Download builded website artifact
+        uses: actions/download-artifact@v3
+
+      - name: S3 Sync
+        uses: ItsKarma/aws-cli@v1.70.0
+        with:
+          args: s3 sync --delete build/ s3://${{ secrets.S3_WEBSITE_BUCKET }}/
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}

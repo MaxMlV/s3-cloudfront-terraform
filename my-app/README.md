@@ -1,66 +1,68 @@
-# Portfolio theme for Gatsby
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-### Gatsby starter theme integrated with [Contentful](https://www.contentful.com)
+## Available Scripts
 
-## Demo
+In the project directory, you can run:
 
-Live demo is available at:
-https://gatsby-contentful-portfolio.netlify.com/
+### `yarn start`
 
-## Screenshot
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-![The home page](screenshot.png?raw=true)
+The page will reload if you make edits.<br />
+You will also see any lint errors in the console.
 
-## Who is this for?
+### `yarn test`
 
-- Graphic designers
-- Photographers
-- Illustrators
-- Other creatives
+Launches the test runner in the interactive watch mode.<br />
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-## Features
+### `yarn build`
 
-- Integration with [Contentful](https://www.contentful.com) - automated content model & demo setup
-- Responsive/adaptive images via [gatsby-image](https://www.gatsbyjs.org/packages/gatsby-image/)
-- Uses utility-first [TailwindCSS](https://tailwindcss.com/) framework
-- Integration with [Mailchimp](https://mailchimp.com/) - newsletter form
-- Responsive design (desktop / mobile)
+Builds the app for production to the `build` folder.<br />
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-## Getting started
+The build is minified and the filenames include the hashes.<br />
+Your app is ready to be deployed!
 
-Install [Node package manager (NPM)](https://nodejs.org/) (if you haven't already).
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-## Requirements
+### `yarn eject`
 
-To use this project you have to have a Contentful account. If you don't have one yet you can register at [www.contentful.com/sign-up](https://www.contentful.com/sign-up/).
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-### Get the source code and install dependencies.
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-```
-$ git clone git@github.com:wkocjan/gatsby-contentful-portfolio.git
-$ npm install
-```
+Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-### Set up of the needed content model and create a configuration file
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-This project comes with a Contentful setup command `npm run setup`.
+## Learn More
 
-This command will ask you for a space ID, and access tokens for the Contentful Management and Delivery API and then import the needed content model into the space you define and write a config file (`.env`).
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-### Set up Mailchimp
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-If you want to use built-in integration with Mailchimp, please provide your unique endpoind URL in the `.env` file (`MAILCHIMP_ENDPOINT` variable).
+### Code Splitting
 
-Follow [this instruction](https://www.gatsbyjs.org/packages/gatsby-plugin-mailchimp/?=mailchimp#mailchimp-endpoint) to get the endpoint value.
+This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
 
-## Crucial Commands
+### Analyzing the Bundle Size
 
-This project comes with a few handy commands for linting and code fixing. The most important ones are the ones to develop and ship code. You can find the most important commands below.
+This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
 
-#### `gatsby develop`
+### Making a Progressive Web App
 
-Run in the project locally.
+This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
 
-#### `gatsby build`
+### Advanced Configuration
 
-Run a production build into `./public`. The result is ready to be put on any static hosting you prefer.
+This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+
+### Deployment
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+
+### `yarn build` fails to minify
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
